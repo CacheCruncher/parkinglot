@@ -5,6 +5,6 @@ import com.jawahir.parkinglot.models.ParkingSpot;
 public class ParkingSpotService {
 
     public ParkingSpot createParkingSpot(ParkingSpot parkingSpot){
-
+        return null;
     }
 }

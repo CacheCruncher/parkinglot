@@ -1,8 +1,15 @@
 package com.jawahir.parkinglot.models;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 import java.util.Date;
 
-public abstract class BaseModel {
+@SuperBuilder
+@Setter
+@Getter
+abstract class BaseModel {
     private Long id;
     private Date createdAt;
     private Date updatedAt;
