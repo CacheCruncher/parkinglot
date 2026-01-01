@@ -1,4 +1,7 @@
 package com.jawahir.parkinglot.models;
 
-public class ExitGate {
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
+public class ExitGate extends BaseModel{
 }

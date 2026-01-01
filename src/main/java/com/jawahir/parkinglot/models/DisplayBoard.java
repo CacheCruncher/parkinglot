@@ -1,4 +1,7 @@
 package com.jawahir.parkinglot.models;
 
-public class DisplayBoard {
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
+public class DisplayBoard extends BaseModel{
 }

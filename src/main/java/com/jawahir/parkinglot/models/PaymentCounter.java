@@ -1,4 +1,7 @@
 package com.jawahir.parkinglot.models;
 
-public class PaymentCounter {
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
+public class PaymentCounter extends BaseModel{
 }
