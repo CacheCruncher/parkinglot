@@ -1,12 +1,13 @@
 package com.jawahir.parkinglot.dtos;
 
+import com.jawahir.parkinglot.generator.GateId;
 import com.jawahir.parkinglot.generator.ParkingFloorId;
 import com.jawahir.parkinglot.generator.ParkingLotId;
 import com.jawahir.parkinglot.generator.ParkingSpotId;
 import com.jawahir.parkinglot.models.*;
 import lombok.Getter;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,31 +23,45 @@ public class CreateParkingLotRequest {
     // Prototype pattern
     public ParkingLot toParkingLot() {
 
-        // Create dummy parking spots and update their ids
-        List<ParkingSpot> parkingSpotsPerFloor = Collections.nCopies(numberOfSpotsPerFloor, ParkingSpot.mediumAvailable());
+        // 1. Create Floors (and unique spots for each floor)
+        List<ParkingFloor> parkingFloors = new ArrayList<>();
+        for (int i = 0; i < numberOfFloors; i++) {
 
-        parkingSpotsPerFloor.forEach(spot -> {
-            spot.setId(ParkingSpotId.nextId());
-        });
+            List<ParkingSpot> spotsForThisFloor = new ArrayList<>();
+            for (int j = 0; j < numberOfSpotsPerFloor; j++) {
+                ParkingSpot spot = ParkingSpot.mediumAvailable();
+                spot.setId(ParkingSpotId.nextId());
+                spotsForThisFloor.add(spot);
+            }
 
-        // Create dummy parking floors and update their ids
-        List<ParkingFloor> parkingFloors = Collections.nCopies(numberOfFloors,
-                ParkingFloor
-                        .builder()
-                        .id(ParkingFloorId.nextId())
-                        .parkingSpots(parkingSpotsPerFloor)
-                        .paymentCounter(PaymentCounter.builder().build())
-                        .build());
+            ParkingFloor floor = ParkingFloor.builder()
+                    .id(ParkingFloorId.nextId())
+                    .parkingSpots(spotsForThisFloor)
+                    .paymentCounter(PaymentCounter.builder().build())
+                    .build();
 
+            parkingFloors.add(floor);
+        }
 
-        return ParkingLot
-                .builder()
+        // 2. Create Entry Gates
+        List<EntryGate> entryGates = new ArrayList<>();
+        for (int i = 0; i < numberOfEntryGates; i++) {
+            entryGates.add(EntryGate.builder().id(GateId.nextId()).build());
+        }
+
+        // 3. Create Exit Gates
+        List<ExitGate> exitGates = new ArrayList<>();
+        for (int i = 0; i < numberOfExitGates; i++) {
+            exitGates.add(ExitGate.builder().id(GateId.nextId()).build());
+        }
+
+        return ParkingLot.builder()
                 .id(ParkingLotId.nextId())
                 .name(name)
                 .address(address)
                 .floors(parkingFloors)
-                .entryGates(Collections.nCopies(numberOfEntryGates, EntryGate.builder().build()))
-                .exitGates(Collections.nCopies(numberOfExitGates, ExitGate.builder().build()))
+                .entryGates(entryGates)
+                .exitGates(exitGates)
                 .build();
     }
 }
