@@ -2,6 +2,7 @@ package com.jawahir.parkinglot.service;
 
 import com.jawahir.parkinglot.models.ParkingLot;
 import com.jawahir.parkinglot.models.ParkingSpot;
+import com.jawahir.parkinglot.models.VehicleType;
 import com.jawahir.parkinglot.repositories.ParkingSpotRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,13 @@ public class ParkingSpotService {
         List<ParkingSpot> parkingSpots = parkingLot.getFloors().stream().flatMap(floor -> floor.getParkingSpots().stream()).toList();
 
         parkingSpotRepository.saveAll(parkingSpots);
+    }
+
+    public ParkingSpot allocateSlot(Long parkingLotId, VehicleType vehicleType) {
+        return parkingSpotRepository.findOneByVehicleTypeAndStatusAvailable(vehicleType);
+    }
+
+    public ParkingSpot update(ParkingSpot parkingSpot) {
+        return parkingSpotRepository.update(parkingSpot);
     }
 }
