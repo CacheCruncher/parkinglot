@@ -1,1 +1,1 @@
-Desigine a Parking lot by following MVC
+This is a Parking Lot Management System designed to automate vehicle entry, spot allocation, and fee collection. It uses the MVC pattern: the Model handles parking logic and data, the View displays availability and tickets, and the Controller orchestrates entry and exit flows.
